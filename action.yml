@@ -1,6 +1,6 @@
 name: Verify Team Exists
 description: Validates if a GitHub team exists in the specified organization using the GitHub API.
-author: Louisiana Office of Technology Services
+author: Lee Lott
 
 inputs:
   team-name:
