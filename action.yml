@@ -1,0 +1,35 @@
+name: Verify Team Exists
+description: Validates if a GitHub team exists in the specified organization using the GitHub API.
+author: Louisiana Office of Technology Services
+
+inputs:
+  team-name:
+    description: 'The slugified name of the team to validate (e.g., "code-approvers")'
+    required: true
+  token:
+    description: 'GitHub token with organization read permissions'
+    required: true
+  owner:
+    description: 'The owner of the organization (user or organization)'
+    required: true
+
+outputs:
+  result:
+    description: 'Result of the action ("success" or "failure")'
+    value: ${{ steps.action.outputs.result }}
+  team-exists:
+    description: 'Whether the team exists in the organization ("true" or "false")'
+    value: ${{ steps.action.outputs.team-exists }}
+  error-message:
+    description: 'Error message if the team existence check fails'
+    value: ${{ steps.action.outputs.error-message }}        
+
+runs:
+  using: composite
+  steps:
+    - name: Verify Team Exists
+      id: action
+      run: |
+        source ${{ github.action_path }}/action.sh
+        verify_team_exists "${{ inputs.team-name }}" "${{ inputs.token }}" "${{ inputs.owner }}"
+      shell: bash
