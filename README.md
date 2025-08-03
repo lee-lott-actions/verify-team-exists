@@ -45,7 +45,7 @@ This GitHub Action validates if a specified GitHub team exists in an organizatio
        steps:
          - name: Verify Team Exists
            id: verify
-           uses: la-actions/verify-team-exists@v1.0.0
+           uses: lee-lott-actions/verify-team-exists@v1.0.0
            with:
              team-name: ${{ github.event.inputs.team-name }}
              token: ${{ secrets.GITHUB_TOKEN }}
