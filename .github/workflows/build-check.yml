@@ -63,7 +63,7 @@ jobs:
       - name: Check Integration Test Result
         shell: pwsh
         run: |
-          if ("${{ steps.integration-tests.outputs.result }}" -eq "success") && "${{ steps.integration-tests.outputs.team-exists }}" -eq "true" {
+          if (("${{ steps.integration-tests.outputs.result }}" -eq "success") -and ("${{ steps.integration-tests.outputs.team-exists }}" -eq "true")) {
             Write-Host "Test passed: Integration test simulated successfully."
           } else {
             Write-Host "Test failed: ${{ steps.integration-tests.outputs.error-message }}"
