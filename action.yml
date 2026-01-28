@@ -29,7 +29,7 @@ runs:
   steps:
     - name: Verify Team Exists
       id: action
+      shell: pwsh
       run: |
-        source ${{ github.action_path }}/action.sh
-        verify_team_exists "${{ inputs.team-name }}" "${{ inputs.token }}" "${{ inputs.owner }}"
-      shell: bash
+        . "${{ github.action_path }}/action.ps1"
+        Test-TeamExists  "${{ inputs.team-name }}" "${{ inputs.token }}" "${{ inputs.owner }}"
