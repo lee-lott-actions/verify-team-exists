@@ -59,4 +59,15 @@ Describe "Test-TeamExists" {
         $output | Should -Contain "team-exists=false"
         $output | Should -Contain "error-message=Missing required parameters: team_name, token, and owner must be provided."
     }
+	
+	It "writes result=failure and error-message on exception" {
+		Mock Invoke-WebRequest { throw "API Error" }
+
+		Test-TeamExists -TeamName $TeamName -Token $Token -Owner $Owner
+
+		$output = Get-Content $env:GITHUB_OUTPUT
+		$output | Should -Contain "result=failure"
+		$output | Should -Contain "team-exists=false"
+		$output | Should -Contain "error-message=Failed to verify team exists."
+	}	
 }
