@@ -46,9 +46,10 @@ function Test-TeamExists {
             Add-Content -Path $env:GITHUB_OUTPUT -Value "team-exists=false"
         }
     } catch {
-        Write-Host "Team '$TeamName' does not exist in organization '$Owner'"
+		$errorMsg = "Failed to verify Team '$TeamName' exists in organization '$Owner'. Exception: $($_.Exception.Message)"        
         Add-Content -Path $env:GITHUB_OUTPUT -Value "result=failure"
         Add-Content -Path $env:GITHUB_OUTPUT -Value "team-exists=false"
-		Add-Content -Path $env:GITHUB_OUTPUT -Value "error-message=Failed to verify team exists."
+		Add-Content -Path $env:GITHUB_OUTPUT -Value "error-message=$errorMsg"
+		Write-Host $errorMsg
     }
 }

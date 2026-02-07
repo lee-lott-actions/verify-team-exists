@@ -68,6 +68,6 @@ Describe "Test-TeamExists" {
 		$output = Get-Content $env:GITHUB_OUTPUT
 		$output | Should -Contain "result=failure"
 		$output | Should -Contain "team-exists=false"
-		$output | Should -Contain "error-message=Failed to verify team exists."
+		$output | Should -Contain "error-message=Failed to verify Team '$TeamName' exists in organization '$Owner'. Exception:"
 	}	
 }
