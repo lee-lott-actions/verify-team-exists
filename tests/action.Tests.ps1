@@ -68,6 +68,7 @@ Describe "Test-TeamExists" {
 		$output = Get-Content $env:GITHUB_OUTPUT
 		$output | Should -Contain "result=failure"
 		$output | Should -Contain "team-exists=false"
-		$output | Should -Contain "error-message=Failed to verify Team '$TeamName' exists in organization '$Owner'. Exception:"
+		$output | Where-Object { $_ -match "^error-message=Error: Failed to verify Team '$TeamName' exists in organization '$Owner'\. Exception:" } |
+			Should -Not -BeNullOrEmpty
 	}	
 }
