@@ -31,7 +31,7 @@ function Test-TeamExists {
     }
 
     try {
-        $response = Invoke-WebRequest -Uri $uri -Headers $headers -Method Get
+        $response = Invoke-WebRequest -Uri $uri -Headers $headers -Method Get -SkipHttpErrorCheck
 
         Write-Host "API Response Code: $($response.StatusCode)"
         Write-Host $response.Content
@@ -40,8 +40,12 @@ function Test-TeamExists {
             Write-Host "Team '$TeamName' exists in organization '$Owner'"
             Add-Content -Path $env:GITHUB_OUTPUT -Value "result=success"
             Add-Content -Path $env:GITHUB_OUTPUT -Value "team-exists=true"
+		} elseif ($response.StatusCode -eq 404) {
+			Write-Host "Team '$TeamName' does not exist in organization '$Owner'"
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "result=success"
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "team-exists=false"
         } else {
-            Write-Host "Team '$TeamName' does not exist in organization '$Owner'"
+            Write-Host "Failed to verify Team '$TeamName' exists in organization '$Owner'. HTTP Status: $($response.StatusCode)"
             Add-Content -Path $env:GITHUB_OUTPUT -Value "result=success"
             Add-Content -Path $env:GITHUB_OUTPUT -Value "team-exists=false"
         }

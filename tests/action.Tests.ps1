@@ -36,6 +36,16 @@ Describe "Test-TeamExists" {
         $output | Should -Contain "team-exists=false"
     }
 
+	It "verify_team_exists handles non-200/non-404 HTTP status in else block (e.g., 500)" {
+        Mock Invoke-WebRequest {
+            [PSCustomObject]@{ StatusCode = 500; Content = '{"message": "Server Error"}' }
+        }
+        Test-TeamExists -TeamName $TeamName -Token $Token -Owner $Owner
+        $output = Get-Content $env:GITHUB_OUTPUT
+        $output | Should -Contain "result=success"
+        $output | Should -Contain "team-exists=false"
+    }
+
     It "verify_team_exists fails with empty team_name" {
         Test-TeamExists -TeamName "" -Token $Token -Owner $Owner
         $output = Get-Content $env:GITHUB_OUTPUT
