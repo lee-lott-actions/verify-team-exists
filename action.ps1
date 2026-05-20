@@ -14,9 +14,7 @@ function Test-TeamExists {
         Add-Content -Path $env:GITHUB_OUTPUT -Value "error-message=Missing required parameters: team_name, token, and owner must be provided."
         Add-Content -Path $env:GITHUB_OUTPUT -Value "team-exists=false"
         return
-    }
-
-    Write-Host "Attempting to verify team '$TeamName' exists in organization '$Owner'"
+    }   
 
     # Use MOCK_API if set, otherwise default to GitHub API
     $apiBaseUrl = $env:MOCK_API
@@ -30,10 +28,8 @@ function Test-TeamExists {
     }
 
     try {
+		Write-Host "Attempting to verify team '$TeamName' exists in organization '$Owner'"
         $response = Invoke-WebRequest -Uri $uri -Headers $headers -Method Get -SkipHttpErrorCheck
-
-        Write-Host "API Response Code: $($response.StatusCode)"
-        Write-Host $response.Content
 
         if ($response.StatusCode -eq 200) {
             Write-Host "Team '$TeamName' exists in organization '$Owner'"
