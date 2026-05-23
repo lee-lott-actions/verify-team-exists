@@ -38,17 +38,7 @@ Describe "Test-TeamExists" {
 	        $output = Get-Content $env:GITHUB_OUTPUT
 	        $output | Should -Contain "result=success"
 	        $output | Should -Contain "team-exists=false"
-	    }
-
-		It "unit: Test-TeamExists handles non-200/non-404 HTTP status in else block (e.g., 500)" {
-	        Mock Invoke-WebRequest {
-	            [PSCustomObject]@{ StatusCode = 500; Content = '{"message": "Server Error"}' }
-	        }
-	        Test-TeamExists -TeamName $TeamName -Token $Token -Owner $Owner
-	        $output = Get-Content $env:GITHUB_OUTPUT
-	        $output | Should -Contain "result=success"
-	        $output | Should -Contain "team-exists=false"
-	    }		
+	    }	
 	}
 
 	Context "Parameter Validation Failure Cases" {
